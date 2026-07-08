@@ -1,48 +1,152 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>میلاد خبر</title>
+
+
+<link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003.1/Vazirmatn-font-face.css" rel="stylesheet">
+
 
 <style>
 
 body{
-font-family:tahoma;
-background:#f3f4f6;
+
 margin:0;
+background:#f5f6f8;
+font-family:Vazirmatn,Tahoma;
+
 }
 
+
+
 header{
-background:#111827;
-color:white;
+
+background:white;
 padding:20px;
-font-size:30px;
+font-size:32px;
+font-weight:900;
+box-shadow:0 3px 15px #0002;
+
 }
+
+
+.logo span{
+
+color:#e11d48;
+font-size:40px;
+
+}
+
+
 
 .article{
 
-background:white;
-margin:20px auto;
-padding:25px;
 max-width:900px;
+
+margin:30px auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:25px;
+
+box-shadow:0 10px 30px #0002;
+
+}
+
+
+
+.article img{
+
+width:100%;
+
+height:400px;
+
+object-fit:cover;
+
 border-radius:20px;
 
 }
 
-iframe{
 
-width:100%;
-height:800px;
-border:0;
+
+h1{
+
+font-size:35px;
+
+line-height:1.8;
 
 }
 
+
+
+.text{
+
+font-size:20px;
+
+line-height:2.2;
+
+color:#444;
+
+}
+
+
+
+.back{
+
+background:#2563eb;
+
+color:white;
+
+padding:12px 25px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+display:inline-block;
+
+}
+
+
+
+@media(max-width:600px){
+
+.article{
+
+margin:15px;
+
+padding:20px;
+
+}
+
+
+.article img{
+
+height:250px;
+
+}
+
+
+h1{
+
+font-size:25px;
+
+}
+
+
+}
+
+
+
 </style>
+
 
 </head>
 
@@ -50,33 +154,85 @@ border:0;
 <body>
 
 
+
 <header>
-📰 میلاد خبر
+
+<span class="logo">
+
+<span>✦</span>
+میلاد خبر
+
+</span>
+
+
 </header>
 
 
-<div class="article">
 
 
-<h1>متن خبر</h1>
+<div class="article" id="article">
 
 
-<iframe id="newsFrame"></iframe>
+در حال بارگذاری خبر...
 
 
 </div>
 
 
 
+
 <script>
 
 
-let params=new URLSearchParams(window.location.search);
+let params =
+new URLSearchParams(window.location.search);
 
 
 let url=params.get("url");
 
 
+
 if(url){
 
-document.getElementById("
+
+document.getElementById("article").innerHTML=`
+
+<img src="https://via.placeholder.com/900x400?text=Milad+News">
+
+
+<h1>
+خبر میلاد خبر
+</h1>
+
+
+<div class="text">
+
+برای مشاهده متن کامل خبر، منبع اصلی در پایین قرار دارد.
+
+<br><br>
+
+
+<a class="back" href="${url}" target="_blank">
+
+مشاهده منبع اصلی خبر
+
+</a>
+
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
