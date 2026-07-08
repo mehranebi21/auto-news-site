@@ -14,7 +14,6 @@
 
 <style>
 
-
 *{
 box-sizing:border-box;
 }
@@ -23,30 +22,24 @@ box-sizing:border-box;
 body{
 
 margin:0;
-background:#f5f6f8;
+background:#f3f4f6;
 font-family:Vazirmatn,Tahoma;
 color:#222;
 
 }
 
 
-
 /* header */
-
 
 header{
 
 background:white;
-padding:20px 25px;
-box-shadow:0 3px 15px #0001;
-
+height:90px;
+padding:15px 25px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-
-position:sticky;
-top:0;
-z-index:10;
+box-shadow:0 3px 15px #0002;
 
 }
 
@@ -60,12 +53,14 @@ font-weight:900;
 }
 
 
+
 .logo span{
 
 color:#e11d48;
 font-size:45px;
 
 }
+
 
 
 .logo small{
@@ -81,10 +76,11 @@ font-weight:normal;
 
 .icons{
 
-font-size:28px;
+font-size:30px;
 color:#555;
 
 }
+
 
 
 .icons span{
@@ -95,6 +91,7 @@ margin-right:15px;
 
 
 
+/* menu */
 
 
 nav{
@@ -104,7 +101,6 @@ padding:15px;
 text-align:center;
 
 }
-
 
 
 nav a{
@@ -118,6 +114,8 @@ font-size:16px;
 
 
 
+/* container */
+
 
 .container{
 
@@ -129,32 +127,32 @@ padding:20px;
 
 
 
-/* خبر ویژه */
+/* top news */
 
 
-.feature{
+.top-news{
 
-background:linear-gradient(135deg,#111827,#374151);
+background:
+linear-gradient(135deg,#e11d48,#7c3aed);
+
 color:white;
 
 padding:25px;
 
 border-radius:25px;
 
-margin-bottom:25px;
-
 font-size:22px;
 
+margin-bottom:25px;
+
 }
-
-
 
 
 
 /* cards */
 
 
-.grid{
+.news-grid{
 
 display:grid;
 
@@ -175,8 +173,7 @@ border-radius:25px;
 
 overflow:hidden;
 
-box-shadow:
-0 10px 30px rgba(0,0,0,.10);
+box-shadow:0 10px 30px #0002;
 
 transition:.3s;
 
@@ -186,7 +183,7 @@ transition:.3s;
 
 .card:hover{
 
-transform:translateY(-7px);
+transform:translateY(-5px);
 
 }
 
@@ -217,9 +214,7 @@ padding:25px;
 .category{
 
 color:#e11d48;
-
 font-size:14px;
-
 font-weight:bold;
 
 }
@@ -231,8 +226,6 @@ h2{
 font-size:23px;
 
 line-height:1.8;
-
-margin:10px 0;
 
 }
 
@@ -258,7 +251,7 @@ color:white;
 
 border:0;
 
-padding:14px 25px;
+padding:13px 25px;
 
 border-radius:12px;
 
@@ -297,28 +290,12 @@ margin-top:40px;
 
 
 
-
-
 @media(max-width:600px){
 
 
 .logo{
 
 font-size:25px;
-
-}
-
-
-.logo span{
-
-font-size:35px;
-
-}
-
-
-h2{
-
-font-size:20px;
 
 }
 
@@ -330,13 +307,20 @@ height:200px;
 }
 
 
+h2{
+
+font-size:20px;
+
 }
 
+
+}
 
 </style>
 
 
 </head>
+
 
 
 <body>
@@ -354,6 +338,7 @@ height:200px;
 <small>
 آخرین اخبار ایران و جهان
 </small>
+
 
 </div>
 
@@ -396,22 +381,26 @@ height:200px;
 <div class="container">
 
 
-<div class="feature">
 
-🔥 آخرین اخبار لحظه‌ای میلاد خبر
+<div class="top-news">
 
-</div>
-
-
-
-<div class="grid" id="news">
-
+🔥 جدیدترین خبرهای روز در میلاد خبر
 
 </div>
 
 
 
+
+<div class="news-grid" id="news">
+
+
 </div>
+
+
+
+</div>
+
+
 
 
 
@@ -431,13 +420,15 @@ height:200px;
 
 
 
-<script>
 
+<script>
 
 
 fetch("news.json")
 
+
 .then(response=>response.json())
+
 
 .then(data=>{
 
@@ -446,7 +437,7 @@ let box=document.getElementById("news");
 
 
 
-data.forEach(n=>{
+data.forEach((n,index)=>{
 
 
 box.innerHTML += `
@@ -455,10 +446,10 @@ box.innerHTML += `
 <div class="card">
 
 
+<img src="${n.image}"
 
-<img src="${n.image}" 
+onerror="this.src='https://via.placeholder.com/900x500?text=Milad+News'">
 
-onerror="this.src='https://via.placeholder.com/800x450?text=Milad+News'">
 
 
 <div class="content">
@@ -490,7 +481,7 @@ ${n.description.substring(0,180)}
 
 
 
-<button onclick="openNews('${n.link}')">
+<button onclick="openNews(${index})">
 
 ادامه مطلب
 
@@ -504,6 +495,7 @@ ${n.description.substring(0,180)}
 </div>
 
 
+
 `;
 
 
@@ -511,7 +503,10 @@ ${n.description.substring(0,180)}
 });
 
 
+
 })
+
+
 
 .catch(error=>{
 
@@ -527,13 +522,12 @@ document.getElementById("news").innerHTML=
 
 
 
-
-function openNews(url){
+function openNews(id){
 
 
 window.location.href=
 
-"article.html?url="+encodeURIComponent(url);
+"article.html?id="+id;
 
 
 }
