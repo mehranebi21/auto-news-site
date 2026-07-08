@@ -4,37 +4,52 @@ import json
 
 rss = "https://feeds.bbci.co.uk/persian/rss.xml"
 
-
-news = feedparser.parse(rss)
-
-
-items=[]
+feed = feedparser.parse(rss)
 
 
-for item in news.entries[:20]:
+news=[]
 
-    items.append({
 
-        "title":item.title,
+for item in feed.entries[:20]:
+
+    image="https://via.placeholder.com/800x450?text=Milad+News"
+
+
+    if "media_content" in item:
+        image=item.media_content[0]["url"]
+
+    elif "media_thumbnail" in item:
+        image=item.media_thumbnail[0]["url"]
+
+
+    news.append({
+
+        "title": item.title,
 
         "description":
         item.get("summary",""),
 
         "link":
-        item.link
+        item.link,
+
+        "image":
+        image
 
     })
 
 
-with open("news.json","w",
-encoding="utf-8") as f:
+with open(
+"news.json",
+"w",
+encoding="utf-8"
+) as f:
 
     json.dump(
-        items,
+        news,
         f,
         ensure_ascii=False,
         indent=2
     )
 
 
-print("News updated")
+print("updated")
