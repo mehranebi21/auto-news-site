@@ -1,48 +1,65 @@
 import feedparser
 import json
+from bs4 import BeautifulSoup
 
 
 rss = "https://feeds.bbci.co.uk/persian/rss.xml"
 
+
 feed = feedparser.parse(rss)
 
 
-news=[]
+news = []
 
 
-for item in feed.entries[:20]:
+for item in feed.entries[:30]:
 
-    image="https://via.placeholder.com/800x450?text=Milad+News"
+    title = item.get("title","")
+
+    summary = item.get("summary","")
+
+    # حذف تگ های HTML
+    summary = BeautifulSoup(
+        summary,
+        "html.parser"
+    ).get_text()
 
 
+    image = ""
+
+    # پیدا کردن عکس
     if "media_content" in item:
-        image=item.media_content[0]["url"]
 
-    elif "media_thumbnail" in item:
-        image=item.media_thumbnail[0]["url"]
+        image = item.media_content[0].get("url","")
+
+
+    if not image:
+
+        image = "https://via.placeholder.com/900x500?text=Milad+News"
+
 
 
     news.append({
 
-        "title": item.title,
+        "title": title,
 
-        "description":
-        item.get("summary",""),
+        "description": summary,
 
-        "link":
-        item.link,
+        "content": summary,
 
-        "image":
-        image
+        "image": image
 
     })
 
 
+
+
 with open(
-"news.json",
-"w",
-encoding="utf-8"
+    "news.json",
+    "w",
+    encoding="utf-8"
 ) as f:
+
 
     json.dump(
         news,
@@ -52,4 +69,5 @@ encoding="utf-8"
     )
 
 
-print("updated")
+
+print("News updated")
